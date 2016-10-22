@@ -30,15 +30,39 @@ class RegistrationFormValidation
         if (empty($password)) {
             $this->validationErrors[] = 'Password cannot be empty';
         }
+        //Begin-Changes for vulnerability mitigation-Viswa
+	    if (strlen($password) > "30") {
+            $this->validationErrors[] = "Password should be less than 30 characters";
+        }
+        if (preg_match('/^[A-Za-z0-9_]+$/', $password) === 0) {
+            $this->validationErrors[] = 'Password can only contain letters, numbers and underscores';
+        }
+        //End-Changes for vulnerability mitigation-Viswa
 
         if(empty($first_name)) {
             $this->validationErrors[] = "Please write in your first name";
         }
-
+        //Begin-Changes for vulnerability mitigation-Viswa
+        if (strlen($first_name) > "30") {
+            $this->validationErrors[] = "First Name should be less than 30 characters";
+        }
+        if (preg_match('/^[A-Za-z]+$/', $first_name) === 0) {
+            $this->validationErrors[] = 'First Name can only contain letters';
+        }
+        //End-Changes for vulnerability mitigation-Viswa
+        
          if(empty($last_name)) {
             $this->validationErrors[] = "Please write in your last name";
         }
-
+        //Begin-Changes for vulnerability mitigation-Viswa
+        if (strlen($last_name) > "30") {
+            $this->validationErrors[] = "Last Name should be less than 30 characters";
+        }
+        if (preg_match('/^[A-Za-z]+$/', $last_name) === 0) {
+            $this->validationErrors[] = 'Last Name can only contain letters';
+        }
+        //End-Changes for vulnerability mitigation-Viswa
+        
         if(empty($phone)) {
             $this->validationErrors[] = "Please write in your post code";
         }
@@ -51,9 +75,20 @@ class RegistrationFormValidation
         {
             $this->validationErrors[] = 'Company can only contain letters';
         }
-
+        //Begin-Changes for vulnerability mitigation-Viswa
+        if (strlen($company) > "30") {
+            $this->validationErrors[] = "Company name should be less than 30 characters";
+        }
+        //End-Changes for vulnerability mitigation-Viswa
+        
         if (preg_match('/^[A-Za-z0-9_]+$/', $username) === 0) {
             $this->validationErrors[] = 'Username can only contain letters and numbers';
         }
+        
+        //Begin-Changes for vulnerability mitigation-Viswa
+	    if (strlen($username) > "30") {
+            $this->validationErrors[] = "Username should be less than 30 characters";
+        }
+	    //End-Changes for vulnerability mitigation-Viswa
     }
 }
