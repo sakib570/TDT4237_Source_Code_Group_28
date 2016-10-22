@@ -1,0 +1,16 @@
+<div class="ui container">
+    <a href="/" class="header item">
+        {{ title|default(titleVar) }}
+    </a>
+    <a href="/aboutus" class="item">About us</a>
+    <a href="{{ urlFor('showpatents') }}" class="item">Patents</a>
+    <div class="right menu">
+        {% if isLoggedIn %}
+            <a href="#" class="item">Logged in as {{ loggedInUsername }}</a>
+            <a href="{{ urlFor('logout') }}" class="item">Log out</a>
+        {% else %}
+            <a href="{{ urlFor('newuser') }}" class="item">Create account</a>
+            <a href="/login" class="item">Log in</a>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,6 @@
+# Folders
+vendor/
+
+# Files
+app.db
+composer.phar

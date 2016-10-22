@@ -1,0 +1,35 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    <h2>Patents</h2>
+
+    <table class="ui single line table">
+        <thead>
+            <tr>
+        		<th> Title </th>
+        		<th> Company/User </th>
+        		<th> Description </th>
+        	</tr>
+        </thead>
+
+        <tbody>
+            {% for patents in patent %}
+        	<tr>
+        		<td><a href="/patents/{{patents.patentId}}">{{ patents.title }}</a></td>
+                {% if patents.company == user.username %}
+                    <td><a href="/users/{{ patents.company|raw }}">{{ patents.company|raw }}</a></td>
+                {% else %}
+        		<td> {{ patents.company|raw }} </td>
+                {% endif %}
+        		<td> {{ patents.description|raw }}</td>
+        	</tr>
+        	{% endfor %}
+
+            {% if patent is empty %}
+            <tr>
+                <td colspan="3">There are no patents registered yet!</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

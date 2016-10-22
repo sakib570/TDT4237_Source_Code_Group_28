@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% set titleVar = 'Patentsy AS' %}
+        {% include 'components/head.twig' %}
+    </head>
+
+    <body>
+        <div class="ui grey fixed inverted menu">
+            {% include 'components/menu.twig' %}
+        </div>
+
+        <div id="primary-content" class="ui text container">
+            {% if flash.info %}
+                <div class="ui warning message">
+                    {{ flash.info|raw }}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="ui inverted vertical footer segment">
+            <div class="ui container">
+                {% block footer %}Copyright © 2016 Patentsy AS{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

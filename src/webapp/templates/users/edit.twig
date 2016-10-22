@@ -1,0 +1,38 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    <h2>Edit profile</h2>
+
+    <form action="" method="post" class="ui form">
+        <div class="ui error message">
+            {{ flash.error }}
+        </div>
+
+        <div class="field">
+            <label>First name</label>
+            <input type = "text" name="first_name" value= "{{ user.firstName }}">
+        </div>
+
+        <div class="field">
+            <label>Last name</label>
+            <input type = "text" name="last_name" value= "{{ user.lastName }}">
+        </div>
+
+        <div class="field">
+            <label>Phone</label>
+            <input type = "text" name="phone"  value= "{{ user.phone }}">
+        </div>
+
+        <div class="field">
+            <label>Email</label>
+            <input type="text" name="email" value="{{ user.email|raw}}">
+        </div>
+
+        <div class="field">
+            <label>Company</label>
+            <input type="text" name="company" value="{{ user.company|raw }}">
+        </div>
+
+        <input type="submit" name="submit" value="Save profile" class="positive ui button">
+    </form>
+{% endblock %}

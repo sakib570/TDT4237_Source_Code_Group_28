@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% set titleVar = 'Patentsy AS' %}
+        {% include 'components/head.twig' %}
+    </head>
+
+    <body>
+        <div class="ui grey fixed inverted menu">
+            {% include 'components/menu.twig' %}
+        </div>
+
+        <div id="primary-content" class="ui grid container">
+            <div class="four wide column">
+                <div class="ui secondary vertical pointing fluid menu">
+                    {% if isLoggedIn %}
+                    <a href="{{ urlFor('showpatents') }}" class="item">Show patents</a>
+                    <a href="{{ urlFor('editprofile') }}" class="item">Edit profile</a>
+                    <a href="{{ urlFor('registerpatent') }}" class="item">Register patent</a>
+                    {% endif %}
+
+                    {% if isAdmin %}
+                    <a href="{{ urlFor('admin') }}" class="item">Admin section</a> <br>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="eight wide column">
+                {% if flash.info %}
+                    <div class="ui warning message">
+                        {{ flash.info|raw }}
+                    </div>
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+        <div class="ui inverted vertical footer segment">
+            <div class="ui container">
+                {% block footer %}Copyright © 2016 Patentsy AS{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

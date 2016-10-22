@@ -1,0 +1,44 @@
+{% extends 'layouts/promotional.twig' %}
+
+{% block content %}
+    <h2>About Us</h2>
+
+    <p>Patentsy AS is a corporation working with patent applications, registering trademarks and give your design
+    a copyright. We have a long tradition with this type of work and it goes back to all the way to 1890.
+    Our vision as a company is to realize your founder dream and that's why we have more than 500 people working
+    for us so we can make that happen.</p>
+
+    <p>This company have been passed in generation and it still bellongs to
+    the proud family of Torgmund. The CEO is Bjarni Torgmund who took his fathers place in 1995 and was the one
+    who brought this company online. With passion for technology and nettworks, the CEO wanted a new web application
+    to bring this company into 2016 and even further. Patentsy AS is proud to say that we can make your founder dream come true!</p>
+
+    <p>If you wish to contact us about anything, feel free to send us an email:</p>
+
+    {% if users %}
+    <div class="ui link cards">
+        {% for user in users %}
+            {% if user.userid < 4 %}
+            <div class="card">
+                <div class="content">
+                    <div class="header">
+                        {% if user.userid == 1 %}
+                            Systemmanager
+                        {% elseif user.userid == 2 %}
+                            IT-technican
+                        {% elseif user.userid == 3 %}
+                            CEO
+                        {% endif %}
+                    </div>
+                    <div class="description">
+                        <a href="/user/{{ user.email|raw }}">{{ user.email|raw }}</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No users are in the database.</p>
+    {% endif %}
+{% endblock %}

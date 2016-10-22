@@ -1,0 +1,33 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    <h2>Register patent</h2>
+
+    <form action="#" method="post" enctype="multipart/form-data" class="ui form">
+        <div class="ui error message">
+            {{ flash.error }}
+        </div>
+
+        <div class="field">
+            <label>Title</label>
+            <input type = "text" name="title">
+        </div>
+
+        <div class="field">
+            <label>Company/User</label>
+            <input type="text" name="company">
+        </div>
+
+        <div class="field">
+            <label>Select patent to upload (PDF Only & Max 10MB)</label>
+            <input type="file" name="uploaded">
+        </div>
+
+        <div class="field">
+            <label>Description</label>
+            <textarea cols="40" rows="10" name="description"> </textarea>
+        </div>
+
+        <input type="submit" name="submit" value="Register patent" class="positive ui button">
+    </form>
+{% endblock %}

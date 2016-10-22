@@ -1,0 +1,59 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    <h2>Admin section</h2>
+
+    <h3>Users</h3>
+
+    <table class="ui single line table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.userid|raw }}</td>
+                    <td><a href="/users/{{ user.username|raw }}">{{ user.username|raw }}</a></td>
+                    <td><a href="/users/{{ user.username|raw }}/delete">Delete user</a></td>
+                </tr>
+            {% endfor %}
+
+            {% if users is empty %}
+                <tr>
+                    <td colspan="3">The users table is empty.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <h3>Patens</h3>
+
+    <table class="ui single line table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for patents in patent %}
+                <tr>
+                    <td><a href="/patents/{{ patents.patentId|raw }}">{{ patents.title }}</a></td>
+                    <td><a href="/patents/{{ patents.patentId|raw }}/delete">Delete patent</a></td>
+                </tr>
+            {% endfor %}
+
+            {% if patent is empty %}
+                <tr>
+                    <td colspan="2">There are no patents!</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

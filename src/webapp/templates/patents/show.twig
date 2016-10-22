@@ -1,0 +1,37 @@
+{% extends 'layouts/base.twig' %}
+
+{% block content %}
+    {% if patent %}
+        <h2 class="ui header">
+            {{ patent.title }}
+            <div class="sub header">Administer this patent</div>
+        </h2>
+
+        {% if flash.msg %}
+            <div class="ui warning message">
+                {{ flash.msg|raw }}
+            </div>
+        {% endif %}
+
+        <table class="ui definition table">
+            <tr>
+                <td>Owner</td>
+                <td>{{ patent.company }}</td>
+            </tr>
+
+            {% if user.username == patent.company or user.company == patent.company %}
+            <tr>
+                <td>File</td>
+                <td><a href="{{ patent.file }}">Patent</a></td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <h3>Description</h3>
+        <p>{{ patent.description }}</p>
+    {% else %}
+        <div class="ui error message">
+            Unable to find that patent.
+        </div>
+    {% endif %}
+{% endblock %}

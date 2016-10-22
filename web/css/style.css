@@ -1,0 +1,42 @@
+#primary-content {
+    margin: 50px 0;
+    padding-top: 0;
+}
+
+@media (min-height: 320px) {
+    .ui.footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+.patents table
+{
+    margin-top: 10px;
+}
+
+th
+{
+    text-align: left;
+}
+
+th, td
+{
+    border-bottom: 1px solid #ddd;
+    padding-left: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.description
+{
+    margin-top: 35px;
+}
+
+.adminPatents
+{
+    margin-top: 50px;
+}
+
+
