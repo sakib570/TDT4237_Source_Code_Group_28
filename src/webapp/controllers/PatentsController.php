@@ -32,6 +32,7 @@ class PatentsController extends Controller
         $username = $_SESSION['user'];
         $user = $this->userRepository->findByUser($username);
         $request = $this->app->request;
+        //Modification by Sakib
         $message = htmlentities($request->get('msg'), ENT_QUOTES);
         $variables = [];
 
@@ -69,16 +70,18 @@ class PatentsController extends Controller
             $this->app->redirect("/login");
         } else {
             $request     = $this->app->request;
+            //Modification by Sakib
             $title       = htmlentities($request->post('title'), ENT_QUOTES);
             $description = htmlentities($request->post('description'), ENT_QUOTES);
             $company     = htmlentities($request->post('company'), ENT_QUOTES);
+            //Modification by Sakib
             $date        = date("dmY");
             $file        = true;
             if ($_FILES['uploaded']['tmp_name'])
             	$file = $this -> startUpload();
 
             $validation = new PatentValidation($title, $description);
-            if ($validation->isGoodToGo() && $file) {
+            if ($validation->isGoodToGo() && $file) {  //Modification by Sakib
                 $patent = new Patent($company, $title, $description, $date, $file);
                 $patent->setCompany($company);
                 $patent->setTitle($title);
@@ -96,6 +99,7 @@ class PatentsController extends Controller
 
     public function startUpload()
     {
+    	//Modification by Sakib
         if(isset($_POST['submit']) &&  $_FILES['uploaded']['tmp_name'])
         {
             $target_dir =  getcwd()."/web/uploads/";
@@ -124,6 +128,7 @@ class PatentsController extends Controller
             	$this->app->render('patents/new.twig'); */
             	return false;
             }
+            //Modification by Sakib
             	
         }
     }
@@ -140,6 +145,7 @@ class PatentsController extends Controller
         $this->app->redirect('/admin');
     }
     
+    //Modification by Sakib
     public function fileNameSantiztion($name)
     {
     	$ext = pathinfo($name, PATHINFO_EXTENSION);
@@ -198,5 +204,5 @@ class PatentsController extends Controller
     
     	return $str;
     }
-    
+    //Modification by Sakib
 }

@@ -95,12 +95,14 @@ class UsersController extends Controller
         $user = $this->auth->user();
 
         $request    = $this->app->request;
+        //Modification by Sakib
         $email      = htmlentities($request->post('email'), ENT_QUOTES);
         $firstName  = htmlentities($request->post('first_name'), ENT_QUOTES);
         $lastName   = htmlentities($request->post('last_name'), ENT_QUOTES);
         $phone      = htmlentities($request->post('phone'), ENT_QUOTES);
         $company    = htmlentities($request->post('company'), ENT_QUOTES);
-
+        //Modification by Sakib
+        
         $validation = new EditUserFormValidation($email, $phone, $company);
 
         if ($validation->isGoodToGo()) {
