@@ -12,10 +12,10 @@ class UserRepository
 {
     const INSERT_QUERY   = "INSERT INTO users(user, pass, first_name, last_name, phone, company, isadmin) VALUES('%s', '%s', '%s' , '%s' , '%s', '%s', '%d')"; //krishna
     const UPDATE_QUERY   = "UPDATE users SET email='%s', first_name='%s', last_name='%s', isadmin='%d', phone ='%s' , company ='%s' WHERE id='%s'"; //krishna
-    const FIND_BY_NAME   = "SELECT * FROM users WHERE user='%s'";
+    const FIND_BY_NAME   = "SELECT * FROM users WHERE user = :";
     const DELETE_BY_NAME = "DELETE FROM users WHERE user='%s'";
     const SELECT_ALL     = "SELECT * FROM users";
-    const FIND_FULL_NAME   = "SELECT * FROM users WHERE user='%s'";
+    const FIND_FULL_NAME   = "SELECT * FROM users WHERE user = :";
 
     /**
      * @var PDO
@@ -50,9 +50,14 @@ class UserRepository
 
     public function getNameByUsername($username)
     {
-        $query = sprintf(self::FIND_FULL_NAME, $username);
+	$query = sprintf("%s%s", self::FIND_FULL_NAME, 'username');
 
-        $result = $this->pdo->query($query, PDO::FETCH_ASSOC);
+        $result = $this->pdo->prepare($query);
+        $result->execute(array('username' => $username));
+        
+/*	$query = sprintf(self::FIND_FULL_NAME, $username);
+
+        $result = $this->pdo->query($query, PDO::FETCH_ASSOC);*/
         $row = $result->fetch();
         $name = $row['first_name'] + " " + $row['last_name'];
         return $name;
@@ -60,8 +65,13 @@ class UserRepository
 
     public function findByUser($username)
     {
-        $query  = sprintf(self::FIND_BY_NAME, $username);
-        $result = $this->pdo->query($query, PDO::FETCH_ASSOC);
+	$query  = sprintf("%s%s", self::FIND_BY_NAME, 'username');
+
+        $result = $this->pdo->prepare($query);
+        $result->execute(array('username' => $username));
+
+/*      $query  = sprintf(self::FIND_BY_NAME, $username);
+        $result = $this->pdo->query($query, PDO::FETCH_ASSOC);*/
         $row = $result->fetch();
         
         if ($row === false) {

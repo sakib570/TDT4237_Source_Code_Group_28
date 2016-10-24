@@ -35,8 +35,13 @@ class PatentRepository
 
     public function find($patentId)
     {
+	$query = sprintf("%s%s", "SELECT * FROM patent WHERE patentId = :", 'patentId');
+
+        $result = $this->pdo->prepare($query);
+        $result->execute(array('patentId' => $patentId));
+/*
         $sql  = "SELECT * FROM patent WHERE patentId = $patentId";
-        $result = $this->pdo->query($sql);
+        $result = $this->pdo->query($sql);*/
         $row = $result->fetch();
 
         if($row === false) {
