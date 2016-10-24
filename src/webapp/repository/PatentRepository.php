@@ -52,6 +52,31 @@ class PatentRepository
         return $this->makePatentFromRow($row);
     }
 
+    public function searchByStr($pName)
+    {
+	//$query = sprintf("%s%s%s", "SELECT * FROM patent WHERE company = :", 'patentId');
+        error_log( print_r($pName, true ) );
+        $results = $this->pdo->prepare("SELECT * FROM patent WHERE title = ? OR company = ?" );
+        
+        $results->bindParam(1, $pName);
+        $results->bindParam(2, $pName);
+        error_log( print_r($results, true ) );
+        $results->execute();
+
+/*
+        $sql  = "SELECT * FROM patent WHERE patentId = $patentId";
+        $result = $this->pdo->query($sql);*/
+        $fetch = $results->fetchAll();
+
+        if(count($fetch) == 0) {
+            return false;
+        }
+
+        return new PatentCollection(
+            array_map([$this, 'makePatentFromRow'], $fetch)
+        );
+    }
+
     public function all()
     {
         $sql   = "SELECT * FROM patent";

@@ -71,6 +71,9 @@ $app->post('/profile/edit', $ns . 'UsersController:update');
 // Patents
 $app->get('/patents', $ns . 'PatentsController:index')->name('showpatents');
 
+$app->get('/patents/search', $ns . 'PatentsController:search')->name('searchpatent');//sri krishna
+$app->get('/patents/name', $ns . 'PatentsController:searchResults');//sri krishna
+
 $app->get('/patents/new', $ns . 'PatentsController:newpatent')->name('registerpatent');
 $app->post('/patents/new', $ns . 'PatentsController:create');
 

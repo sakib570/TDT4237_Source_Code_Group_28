@@ -2,8 +2,11 @@
 
 {% block content %}
     <h2>Welcome</h2>
-
-    {{ flash.error }}
+    {% if  flash.error %}
+                <div class="ui warning message">
+                    {{  flash.error }}
+                </div>
+            {% endif %}
 
     <p>Welcome to Patentsy AS. Our corporation is one of few to help you realize your dream becomming a founder!</p>
 

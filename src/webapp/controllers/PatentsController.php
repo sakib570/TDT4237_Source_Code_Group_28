@@ -25,9 +25,41 @@ class PatentsController extends Controller
         $users = $this->userRepository->all();
         $this->render('patents/index.twig', ['patent' => $patent, 'users' => $users]);
     }
+   //sri krishna
+    public function search()
+    {
+        if ($this->auth->check()) {
+        $this->render('patents/search.twig');   
+        }else {
 
+            $this->app->flash('error', "You need to be logged in to search a patent");
+            $this->app->redirect("/");
+        }
+    }
+    
+    //sri krishna
+    public function searchResults()
+    {   if ($this->auth->check()) {
+    	$request = $this->app->request;
+        $pName = htmlentities($request->get('search'), ENT_QUOTES);
+        error_log( print_r("Its in results", true ) );
+        error_log( print_r($pName, true ) );
+        $patent = $this->patentRepository->searchByStr($pName);
+        if($patent != null)
+        {
+            $patent->sortByDate();
+        }
+        $users = $this->userRepository->all();
+        $this->render('patents/result.twig', ['patent' => $patent, 'users' => $users]); 
+        }else {
+
+            $this->app->flash('error', "You need to be logged in to search a patent");
+            $this->app->redirect("/");
+        }
+    }
     public function show($patentId)
     {
+        if ($this->auth->check()) {
         $patent = $this->patentRepository->find($patentId);
         $username = $_SESSION['user'];
         $user = $this->userRepository->findByUser($username);
@@ -45,7 +77,11 @@ class PatentsController extends Controller
             'patent' => $patent,
             'user' => $user,
             'flash' => $variables
-        ]);
+        ]);}else {
+
+            $this->app->flash('error', "You need to be logged in to view this patent");
+            $this->app->redirect("/");
+        }
 
     }
 
