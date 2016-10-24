@@ -30,14 +30,6 @@ class RegistrationFormValidation
         if (empty($password)) {
             $this->validationErrors[] = 'Password cannot be empty';
         }
-        //Begin-Changes for vulnerability mitigation-Viswa
-	    if (strlen($password) > "30") {
-            $this->validationErrors[] = "Password should be less than 30 characters";
-        }
-        if (preg_match('/^[A-Za-z0-9_]+$/', $password) === 0) {
-            $this->validationErrors[] = 'Password can only contain letters, numbers and underscores';
-        }
-        //End-Changes for vulnerability mitigation-Viswa
 
         if(empty($first_name)) {
             $this->validationErrors[] = "Please write in your first name";
