@@ -30,6 +30,10 @@ class RegistrationFormValidation
         if (empty($password)) {
             $this->validationErrors[] = 'Password cannot be empty';
         }
+	    
+	if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)){
+	    $this->validationErrors[] = 'Password should be combination of numbers, uppercase, lower case & special character';
+	}
 
         if(empty($first_name)) {
             $this->validationErrors[] = "Please write in your first name";
