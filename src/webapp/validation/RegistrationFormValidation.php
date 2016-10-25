@@ -32,7 +32,7 @@ class RegistrationFormValidation
         }
 	    
 	if(!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,12}$/', $password)){
-	    $this->validationErrors[] = 'Password should be combination of numbers, uppercase, lower case & special character';
+	    $this->validationErrors[] = 'Password must contain at least numbers and alphabets and minimum allowed length is 8';
 	}
 
         if(empty($first_name)) {
