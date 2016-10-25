@@ -30,6 +30,14 @@ class SessionsController extends Controller
         $user    = $request->post('user');
         $pass    = $request->post('pass');
 
+        if($this->auth->isUserBlocked($user) === 1){
+            error_log( print_r( "First check", true ) );
+            $this->app->flashNow('error', 'Your are blocked !! Please try after 30 seconds');
+            $this->render('sessions/new.twig', []);
+            return;
+        }
+
+
         if ($this->auth->checkCredentials($user, $pass)) {
             session_regenerate_id(true);//krishna
             $_SESSION['user'] = $user;
@@ -51,10 +59,17 @@ class SessionsController extends Controller
             $this->app->flash('info', "You are now successfully logged in as $user.");
             $this->app->redirect('/');
             return;
+        }else{
+            error_log( print_r( "Wrong pass", true ) );
+            if($this->auth->checkUserAttempts($user) === 1)
+            {
+               $this->app->flashNow('error', 'Your are blocked !! Please try after 30 seconds');
+               $this->render('sessions/new.twig', []);
+            }else{
+               $this->app->flashNow('error', 'Incorrect user/pass combination.');
+               $this->render('sessions/new.twig', []);
+            }
         }
-
-        $this->app->flashNow('error', 'Incorrect user/pass combination.');
-        $this->render('sessions/new.twig', []);
     }
 
     public function destroy()

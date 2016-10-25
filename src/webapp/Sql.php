@@ -19,10 +19,10 @@ class Sql
     {
         $q1 = "CREATE TABLE users (id INTEGER PRIMARY KEY, user VARCHAR(50), pass VARCHAR(50), email varchar(50) default null, first_name varchar(50), last_name varchar(50), phone varchar (8), company varchar(50), isadmin INTEGER);";
         $q6 = "CREATE TABLE patent (patentId INTEGER PRIMARY KEY AUTOINCREMENT, company TEXT NOT NULL, title TEXT NOT NULL, file TEXT NOT NULL, description TEXT NOT NULL, date TEXT NOT NULL, FOREIGN KEY(patentId) REFERENCES users(company));";
-
+        $q8 = "CREATE TABLE attempts (uId INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, attempt_count INTEGER, time INTEGER);";
         self::$pdo->exec($q1);
         self::$pdo->exec($q6);
-
+        self::$pdo->exec($q8);
         print "[tdt4237] Done creating all SQL tables.".PHP_EOL;
 
         self::insertDummyUsers();
@@ -61,9 +61,10 @@ class Sql
     {
         $q1 = "DROP TABLE users";
         $q4 = "DROP TABLE patent";
-
+        $q8 = "DROP TABLE attempts";
         self::$pdo->exec($q1);
         self::$pdo->exec($q4);
+        self::$pdo->exec($q8);
 
         print "[tdt4237] Done deleting all SQL tables.".PHP_EOL;
     }

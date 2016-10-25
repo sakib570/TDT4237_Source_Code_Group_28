@@ -41,6 +41,14 @@ class Auth
 	$user = $this->userRepository->findByUser($username);
         return $user->isAdmin();
     }
+   
+    public function checkUserAttempts($username){
+          return $this->userRepository->checkAttempts($username);
+    }
+    
+    public function isUserBlocked($username){
+            return $this->userRepository->userBlock($username);
+    }
 
     /**
      * Check if is logged in.
