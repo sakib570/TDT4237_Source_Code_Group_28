@@ -39,6 +39,7 @@ class SessionsController extends Controller
 
 
         if ($this->auth->checkCredentials($user, $pass)) {
+            
             session_regenerate_id(true);//krishna
             $_SESSION['user'] = $user;
 	    $_SESSION['isadmin'] = $this->auth->checkAdmin($user);

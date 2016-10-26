@@ -18,7 +18,7 @@ class UserRepository
     const FIND_FULL_NAME   = "SELECT * FROM users WHERE user = :";
    
     const FIND_ATTEMPTS_TIME = "SELECT attempt_count, time FROM attempts WHERE username = :";
-    const UPDATE_ATTEMPTS_TIME = "UPDATE attempts SET attempt_count = '%d', time = '%d' WHERE username = %s";
+    const UPDATE_ATTEMPTS_TIME = "UPDATE attempts SET attempt_count = '%d', time = '%d' WHERE username = '%s'";
     const COUNT_ATTEMPT_USER  = "SELECT count(*) AS row_count FROM attempts WHERE username = :";
     const INSERT_ATTEMPT = "INSERT INTO attempts(username,attempt_count,time) VALUES ('%s','%d','%d')";
     const DELETE_ATTEMPT = "DELETE FROM attempts WHERE username ='%s'";
@@ -38,22 +38,23 @@ class UserRepository
     {
         error_log( print_r( "check attempt", true ) );
 	
-	$query = sprintf("%s%s", self::COUNT_ATTEMPT_USER, $username);
+	$query = sprintf("%s%s", self::COUNT_ATTEMPT_USER, 'username');
         $result = $this->pdo->prepare($query);
-        $result->execute();
+        $result->execute(array('username' => $username));
 
         $count = $result->fetch();
         if(intval($count['row_count']) === 1){
           error_log( print_r( "Count more 1", true ) );
 	  
-	  $query = sprintf("%s%s", self::FIND_ATTEMPTS_TIME, $username);
+	  $query = sprintf("%s%s", self::FIND_ATTEMPTS_TIME, 'username');
           $result = $this->pdo->prepare($query);
-          $result->execute();
+          $result->execute(array('username' => $username));
 
           $row = $result->fetch();
 
           if(intval(time()) - intval($row['time'] <=10)){
 	     $query = sprintf(self::UPDATE_ATTEMPTS_TIME, intval($row['attempt_count']) + 1, intval(time()),$username);
+             error_log( print_r( $query, true ) );
              $this->pdo->exec($query);
              $row['attempt_count'] = intval($row['attempt_count']) + 1;
 	  }else{
@@ -83,16 +84,22 @@ class UserRepository
     
     public function userBlock($username){
          
-        $query = sprintf(self::COUNT_ATTEMPT_USER,$username );
+     //   $query = sprintf("%s%s",self::COUNT_ATTEMPT_USER, 'username');
         error_log( print_r( "Called userBlock", true ) );
+   /*     $result = $this->pdo->prepare($query);
+        $result->execute(array('username' => $username));
+        $count = $result->fetch();*/
+
+	$query = sprintf("%s%s", self::COUNT_ATTEMPT_USER, 'username');
         $result = $this->pdo->prepare($query);
-        $result->execute();
+        $result->execute(array('username' => $username));
         $count = $result->fetch();
         if(intval($count['row_count']) === 1){
-
-	  $query = sprintf(self::FIND_ATTEMPTS_TIME, $username );
+	  
+	  $query = sprintf("%s%s",self::FIND_ATTEMPTS_TIME, 'username');
           $result = $this->pdo->prepare($query);
-          $result->execute();
+          $result->execute(array('username' => $username));
+          error_log( print_r( "Called userBlock13", true ) );
           $row = $result->fetch();
           
           if(intval(time()) - intval($row['time']) > 30){

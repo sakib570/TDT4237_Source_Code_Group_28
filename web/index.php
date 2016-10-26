@@ -23,6 +23,7 @@ if (!isset($_SESSION['CREATED'])) {//sri krishna
     session_unset();
     session_destroy();
     //$_SESSION['CREATED'] = time();  // update creation time
+    session_start();
 }else{ //sri krishna in activity for 1 min will logout
 
     $_SESSION['CREATED'] = time();
