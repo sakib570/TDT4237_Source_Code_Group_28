@@ -171,14 +171,18 @@ class PatentsController extends Controller
 
     public function destroy($patentId)
     {
-        if ($this->patentRepository->deleteByPatentid($patentId) === 1) {
-            $this->app->flash('info', "Sucessfully deleted '$patentId'");
-            $this->app->redirect('/admin');
-            return;
-        }
+        if($this->auth->isAdmin()){
+		if ($this->patentRepository->deleteByPatentid($patentId) === 1) {
+		    $this->app->flash('info', "Sucessfully deleted '$patentId'");
+		    $this->app->redirect('/admin');
+		    return;
+		}
 
-        $this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
-        $this->app->redirect('/admin');
+		$this->app->flash('info', "An error ocurred. Unable to delete user '$username'.");
+		$this->app->redirect('/admin');
+        }else{
+              $this->app->redirect('/admin');
+        }
     }
     
     //Modification by Sakib
