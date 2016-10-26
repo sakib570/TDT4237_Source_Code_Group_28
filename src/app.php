@@ -35,6 +35,8 @@ try {
     exit();
 }
 
+$app->response->header("X-XSS-Protection", "1");
+
 // Wire together dependencies
 
 date_default_timezone_set("Europe/Oslo");
