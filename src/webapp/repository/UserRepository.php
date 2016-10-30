@@ -18,10 +18,10 @@ class UserRepository
     const FIND_FULL_NAME   = "SELECT * FROM users WHERE user = :";
    
     const FIND_ATTEMPTS_TIME = "SELECT attempt_count, time FROM attempts WHERE username = :";
-    const UPDATE_ATTEMPTS_TIME = "UPDATE attempts SET attempt_count = '%d', time = '%d' WHERE username = '%s'";
+    const UPDATE_ATTEMPTS_TIME = "UPDATE attempts SET attempt_count = ?, time = ? WHERE username = ?";
     const COUNT_ATTEMPT_USER  = "SELECT count(*) AS row_count FROM attempts WHERE username = :";
-    const INSERT_ATTEMPT = "INSERT INTO attempts(username,attempt_count,time) VALUES ('%s','%d','%d')";
-    const DELETE_ATTEMPT = "DELETE FROM attempts WHERE username ='%s'";
+    const INSERT_ATTEMPT = "INSERT INTO attempts(username,attempt_count,time) VALUES (?,?,?)";
+    const DELETE_ATTEMPT = "DELETE FROM attempts WHERE username = :";
     
 
     /**
@@ -53,13 +53,24 @@ class UserRepository
           $row = $result->fetch();
 
           if(intval(time()) - intval($row['time'] <=10)){
-	     $query = sprintf(self::UPDATE_ATTEMPTS_TIME, intval($row['attempt_count']) + 1, intval(time()),$username);
-             error_log( print_r( $query, true ) );
-             $this->pdo->exec($query);
+	     //$query = sprintf(self::UPDATE_ATTEMPTS_TIME, intval($row['attempt_count']) + 1, intval(time()),$username);
+             $results = $this->pdo->prepare(self::UPDATE_ATTEMPTS_TIME);
+             $curr_time = intval(time());
+             $try = intval($row['attempt_count']) + 1;
+             $results->bindParam(1, $try);
+             $results->bindParam(2, $curr_time);
+             $results->bindParam(3, $username);
+             $results->execute();
              $row['attempt_count'] = intval($row['attempt_count']) + 1;
 	  }else{
-             $query = sprintf(self::UPDATE_ATTEMPTS_TIME, 1, intval(time()),$username);
-             $this->pdo->exec($query); 
+             //$query = sprintf(self::UPDATE_ATTEMPTS_TIME, 1, intval(time()),$username);
+             $results = $this->pdo->prepare(self::UPDATE_ATTEMPTS_TIME);
+             $curr_time = intval(time());
+             $try = 1;
+             $results->bindParam(1, $try);
+             $results->bindParam(2, $curr_time);
+             $results->bindParam(3, $username);
+             $results->execute();
              $row['attempt_count'] = 1;
           }
           
@@ -74,9 +85,15 @@ class UserRepository
           }
 
 	}else{
-	    $query = sprintf(self::INSERT_ATTEMPT, $username, 1, intval(time()));
+	    //$query = sprintf(self::INSERT_ATTEMPT, $username, 1, intval(time()));
+            $results = $this->pdo->prepare(self::INSERT_ATTEMPT);
+            $curr_time = intval(time());
+            $try = 1;
+            $results->bindParam(1, $username);
+            $results->bindParam(2, $try);
+            $results->bindParam(3, $curr_time);
             error_log( print_r( "Inserted", true ) );
-            $this->pdo->exec($query);
+            $results->execute();
             return 0;
         }
     
@@ -103,8 +120,9 @@ class UserRepository
           $row = $result->fetch();
           
           if(intval(time()) - intval($row['time']) > 30){
-             $query = sprintf(self::DELETE_ATTEMPT, $username);
-             $this->pdo->exec($query); 
+             $query = sprintf("%s%s",self::DELETE_ATTEMPT, 'username');
+             $result = $this->pdo->prepare($query);
+             $result->execute(array('username' => $username)); 
              return 0;
           }
 

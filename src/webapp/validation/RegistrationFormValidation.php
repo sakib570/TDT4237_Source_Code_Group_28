@@ -66,14 +66,22 @@ class RegistrationFormValidation
         if (strlen($phone) != "8") {
             $this->validationErrors[] = "Phone number must be exactly eight digits";
         }
-
-        if(strlen($company) > 0 && (!preg_match('/[^0-9]/',$company)))
+        //sri krishna
+        if(strlen($phone) > 0 && (preg_match('/^[0-9]+$/', $phone) === 0)){
+            $this->validationErrors[] = "Phone number must be only digits";
+        }
+        //sri krishna
+        if(strlen($company) > 0 && (preg_match('/^[A-Za-z]+$/', $company) === 0))
         {
             $this->validationErrors[] = 'Company can only contain letters';
         }
         //Begin-Changes for vulnerability mitigation-Viswa
         if (strlen($company) > "30") {
             $this->validationErrors[] = "Company name should be less than 30 characters";
+        }
+        
+        if (empty($username)) {
+            $this->validationErrors[] = 'Username cannot be empty';
         }
         //End-Changes for vulnerability mitigation-Viswa
         
